@@ -1,0 +1,7 @@
+[user]
+	name = taiseee
+	email = taisei7548@gmail.com
+
+[credential "https://git-codecommit.*.amazonaws.com"]
+    helper = !aws codecommit credential-helper $@
+    UseHttpPath = true

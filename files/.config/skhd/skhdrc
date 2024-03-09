@@ -1,0 +1,91 @@
+# ******************************************
+# Launch Applications
+# ******************************************
+# ctrl + cmd - 0x24: osascript -e 'tell application "Notion" to run' \
+#     -e 'tell application "System Events"' \
+#     -e 'if visible of application process "Notion" is true then' \
+#     -e 'set visible of application process "Notion" to false' \
+#     -e 'else' \
+#     -e 'set visible of application process "Notion" to true' \
+#     -e 'end if' \
+#     -e 'end tell'
+# shift + cmd - 0x24: osascript -e 'tell application "Alacritty" to run' \
+#     -e 'tell application "System Events"' \
+#     -e 'if visible of application process "Alacritty" is true then' \
+#     -e 'set visible of application process "Alacritty" to false' \
+#     -e 'else' \
+#     -e 'set visible of application process "Alacritty" to true' \
+#     -e 'end if' \
+#     -e 'end tell'
+# shift + cmd - 0x01: osascript -e 'tell application "Slack" to run' \
+#     -e 'tell application "System Events"' \
+#     -e 'if visible of application process "Slack" is true then' \
+#     -e 'set visible of application process "Slack" to false' \
+#     -e 'else' \
+#     -e 'set visible of application process "Slack" to true' \
+#     -e 'end if' \
+#     -e 'end tell'
+# ******************************************
+# Focus Window
+# ******************************************
+ctrl + alt + cmd - left: yabai -m window --focus west || yabai -m space --focus west
+ctrl + alt + cmd - right: yabai -m window --focus east || yabai -m space --focus east
+ctrl + alt + cmd - up: yabai -m window --focus north || yabai -m display --focus north
+ctrl + alt + cmd - down: yabai -m window --focus south || yabai -m display --focus south
+ctrl + alt - up: yabai -m window --focus stack.prev || yabai -m window --focus stack.last
+ctrl + alt - down: yabai -m window --focus stack.next || yabai -m window --focus stack.first
+# ctrl + alt + cmd - n: yabai -m window --focus next || yabai -m display --focus next
+# ctrl + alt + cmd - p: yabai -m window --focus prev || yabai -m display --focus prev
+# ******************************************
+# Stack Window
+# ******************************************
+ctrl + alt - left: yabai -m window west --stack $(yabai -m query --windows --window | jq -r '.id') || yabai -m window prev --stack $(yabai -m query --windows --window | jq -r '.id') || yabai -m window next --stack $(yabai -m query --windows --window | jq -r '.id')
+ctrl + alt - right: yabai -m window east --stack $(yabai -m query --windows --window | jq -r '.id') || yabai -m window prev --stack $(yabai -m query --windows --window | jq -r '.id') || yabai -m window next --stack $(yabai -m query --windows --window | jq -r '.id')
+# ******************************************
+# Move Window between Displays
+# ******************************************
+################## 要検討 ###################
+# ctrl + alt + cmd - left: yabai -m window --display prev \
+#     && yabai -m display --focus prev
+# ctrl + alt + cmd - right: yabai -m window --display next \
+#     && yabai -m display --focus next
+# ******************************************
+# Move Window in Same Display
+# ******************************************
+# ctrl + alt - left: yabai -m window --swap west
+# ctrl + alt - right: yabai -m window --swap east
+ctrl + shift - h: yabai -m window --resize left:-50:0 || yabai -m window --resize right:-50:0
+ctrl + shift - l: yabai -m window --resize right:50:0 || yabai -m window --resize left:50:0
+ctrl + shift - j: yabai -m window --resize bottom:0:20 || yabai -m window --resize top:0:20
+ctrl + shift - k: yabai -m window --resize top:0:-20 || yabai -m window --resize bottom:0:-20
+# ******************************************
+# Focus Display
+# ******************************************
+alt - 0x2B: yabai -m display --focus prev \
+    && yabai -m display --focus stack.prev
+alt - 0x2F: yabai -m display --focus next \
+    && yabai -m display --focus stack.next
+# ******************************************
+# Toggle FullScreen
+# ******************************************
+ctrl + alt - 0x24 : yabai -m window --toggle zoom-fullscreen
+# ******************************************
+# Mirror
+# ******************************************
+alt - f: yabai -m space --mirror y-axis
+# alt - x: yabai -m space --mirror x-axis
+# ******************************************
+# Rotate & Split & Balance & Toggle
+# ******************************************
+# alt - r: yabai -m space --rotate 90
+# alt - e: yabai -m window --toggle split
+alt - b: yabai -m space --balance
+alt - t: yabai -m window --toggle float; \
+    yabai -m window --grid 4:4:1:1:2:2
+# ******************************************
+# Restart
+# ******************************************
+ctrl + cmd + alt - r : \
+    /usr/bin/env osascript <<< \
+        "display notification \"Restarting Yabai\" with title \"Yabai\""; \
+    launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"

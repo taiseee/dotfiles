@@ -4,6 +4,7 @@ export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 alias -g ...='../..'
 alias -g ....='../../..'
+alias -g .....='../../../..'
 
 # vpn 接続
 function vpn() {
@@ -28,3 +29,7 @@ function vpn() {
 
     return 1
 }
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export VOLTA_FEATURE_PNPM=1

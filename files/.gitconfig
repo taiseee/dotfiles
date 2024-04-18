@@ -5,6 +5,9 @@
 [includeIf "gitdir:~/Projects/HorizonTechnology/"]
     path = ~/.gitconfig-horizon-cg
 
+[includeIf "gitdir:~/Projects/ubbs/"]
+    path = ~/.gitconfig-ubbs
+
 [credential "https://git-codecommit.*.amazonaws.com"]
     helper = !aws codecommit credential-helper $@
     UseHttpPath = true

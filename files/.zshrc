@@ -33,3 +33,32 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 export VOLTA_FEATURE_PNPM=1
+
+topdf() {
+    local path=$1
+    
+    # 引数がファイルの場合
+    if [[ -f "$path" ]]; then
+        local output_file="${path%.*}.pdf"
+        convert "$path" -auto-orient "$output_file"
+        echo "converted $path to $output_file."
+    
+    # 引数がディレクトリの場合
+    elif [[ -d "$path" ]]; then
+        # ディレクトリ内のすべてのサポートされる画像ファイルに対してループ
+        for img_file in "$path"/*; do
+            # ファイルが画像ファイルかどうかをチェック
+            if [[ -f "$img_file" ]]; then
+                local mimetype=$(file --mime-type -b "$img_file")
+                if [[ "$mimetype" == image/* ]]; then
+                    local output_file="${img_file%.*}.pdf"
+                    convert "$img_file" -auto-orient "$output_file"
+                    echo "converted $img_file to $output_file."
+                fi
+            fi
+        done
+    
+    else
+        echo "Please specify a supported image file or folder."
+    fi
+}
